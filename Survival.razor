@@ -1,0 +1,55 @@
+######## SURVIVAL LOOP BY CYPHRAK #########
+
+//Para o bom funcionamento do script
+//Ative: [PreventCriminalLooting & [PreventCriminalHealing
+//No Razor, na aba Options/Additional Options/ ative a caixa de Auto Un/Re-equip hands for drinking potions
+//Lembre-se de criar uma hotkey para o script
+//Reative o loop pela hotkey sempre que usar outro script
+
+sysmsg 'SURVIVAL LOOP RUNNING'
+
+if not timerexists "aids"
+    createtimer "aids"
+    settimer "aids" 16000
+endif
+
+if not timerexists "loopscript"
+    createtimer "loopscript"
+    settimer "loopscript" 10000
+endif
+    
+######## ACTIONS ########
+
+while not dead 'self' 
+    
+    if insysmsg "You cannot move!"
+        say "[Pouch"
+    endif
+    
+    if timer "loopscript" >= 5000
+        settimer "loopscript" 0
+        sysmsg 'Loop On' 60
+        overhead '||ON||' 60
+    endif  
+    
+    if insysmsg "You finish applying the bandages"
+        settimer "aids" 16000
+    elseif insysmsg "but they barely help"
+        settimer "aids" 16000
+    endif
+    
+    if findtype "clean bandage%s%" backpack
+        if hp < maxhp and not hidden
+                if timer "aids" >= 16000
+                hotkey "Bandage Self" 
+                wait 300
+                if insysmsg "begin applying"
+                settimer "aids" 0
+                endif
+            endif
+        endif
+    else
+        overhead "No aids!" 34
+    endif
+    wait 200
+endwhile 

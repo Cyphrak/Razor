@@ -1,0 +1,28 @@
+// Configure um loadout de 50 pouchs normais
+
+if findtype '18283' 
+    while findtype 3705 backpack 0 as 'pouch'
+        if mana > 10
+            cast 'magic trap'
+            wft 2000
+            target 'pouch'
+            wait 600
+        else
+      
+            clearsysmsg
+            while not insysmsg 'you are at peace'
+                skill 'Meditation'
+                wait 11000
+            endwhile
+        endif
+    endwhile
+    wait 600
+
+    menu shelf 0
+    waitfortarget
+    target 'self'
+    waitforgump 3232825965
+    menu shelf 1
+    wait 600
+endif
+loop
